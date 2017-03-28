@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <ul>
+            <script type="text/javascript">
+                var member = {};
+                var meber = new Object();
+
+                var member = {'egoing':3, 'swkim':10, 'jiwon':5};
+                console.log(member.egoing);
+                console.log(member['egoing']);
+                console.log(member['ego'+'ing']);
+
+                var grades = {'egoin':10, 'swkim':5, 'jiwon':2};
+
+                for (var name in grades) {
+                    if (grades.hasOwnProperty(name)) {
+                        document.write('<li> key =' + name + ', value = ' + grades[name] + '</li>');
+                    }
+                }
+
+            </script>
+        </ul>
+            <script type="text/javascript">
+                var students = {
+                        'list'  :   {'egoing': 10, 'k8805':145, 'swkim':1000},
+                        'show'  :   function() {
+                            for(var name in this.list) {
+                                console.log(name, this.list[name]);
+                            }
+                            // console.log(this.list);
+                            console.log('Hello world');
+                        }
+                }
+                document.write(students['list']['egoing']);
+                students.show();
+            </script>
+    </body>
+</html>
