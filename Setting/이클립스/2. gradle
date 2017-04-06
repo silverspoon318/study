@@ -1,0 +1,9 @@
+## Gradle
+
+1. Marketplace 에서 gradle 검색
+ - spring boot gradle version에 따라서 받아야 함.
+ - 아니면  IDE Pack 을 받아라
+ - Windows >> Gradle >> Gradle Directory 설정 잊지 말자 bin
+ - 이렇게 안하면 가장 최신 gradle wrapper 를 다운 받아 사용
+ - 다 받지 말고 Gradle IDE 만 받자
+ 

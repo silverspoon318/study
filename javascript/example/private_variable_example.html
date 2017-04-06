@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript">
+
+        //title 에 접근할 수 있는 채널은 get_title, set_title 만 접근할 수 있다.
+        function factory_movie(title){
+            return {
+                get_title : function (){
+                    return title;
+                },
+                set_title : function(_title){
+                    title = _title
+                }
+            }
+        }
+
+        //2개의 객체가 만들어짐. 각각 실행된 시점에서의 외부함수의 지역변수가 접근할수 있었고
+        // 지역변수는 유지 되기 때문에
+        ghost = factory_movie('Ghost in the shell');
+        matrix = factory_movie('Matrix');
+
+        alert(ghost.get_title());
+        alert(matrix.get_title());
+
+        //factory_movie 지역변수 title 를 바꾸게 된다.
+        ghost.set_title('공각기동대');
+
+        alert(ghost.get_title());
+        alert(matrix.get_title());
+
+        //변신
+        var arr = []
+        for(var i = 0; i < 5; i++){
+            arr[i] = function(id) {
+                return function(){
+                    console.log("id=" + id);
+                    return id;
+                }
+            }(i);
+        }
+        for(var index in arr) {
+            console.log(arr[index]());
+        }
+
+        </script>
+    </body>
+</html>

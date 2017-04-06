@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script type="text/javascript">
+
+        //인자로 받은 값은 this가 된다.
+        //var this = o1;
+
+        function sum(){
+            var _sum = 0;   //_
+            for(name in this){
+                _sum += this[name]; //_
+            }
+            return _sum;    //_
+        }
+        o1 = {val1:1, val2:2, val3:3, sum:sum}
+        o2 = {v1:10, v2:50, v3:100, v4:25, sum:sum}
+
+        alert(sum.apply(o1));
+        alert(sum.apply(o2));
+
+        </script>
+    </body>
+</html>
