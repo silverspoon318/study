@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <p id = 'target'>Coding everyBody!</p>
+        <p>data : <input type="text" name="" id = "dataSource" value="JavaScript"></p>
+        <p>Start : <input type="text" name="" id = "start" value="5"></p>
+        <p>End : <input type="text" name="" id = "end" value="5"></p>
+        <p>
+            <input type="button" name="" value="appendData(data)" onclick="callAppendData()" />
+            <input type="button" name="" value="deleteData(data)" onclick="callDeleteData()" />
+            <input type="button" name="" value="insertData(data)" onclick="callInsertData()" />
+            <input type="button" name="" value="replaceData(data)" onclick="callReplaceData()" />
+            <input type="button" name="" value="substringData(data)" onclick="callSubstringData()" />
+        </p>
+    </body>
+    <script>
+        var target = document.getElementById('target').firstChild;
+        var data = document.getElementById('dataSource');
+        var start = document.getElementById('start');
+        var end = document.getElementById('end');
+        function callAppendData() {
+            console.log(data.value);
+            target.appendData(data.value);
+        }
+        function callDeleteData() {                     //보통 length 0부터 count 하지 않고 1부터 count 한다.
+            target.deleteData(start.value, end.value);
+        }
+        function callInsertData() {
+            target.insertData(start.value, data.value);
+        }
+        function callReplaceData() {
+            target.replaceData(start.value, end.value, data.value);
+        }
+        function callSubstringData() {
+            alert(target.substringData(start.value, end.value));
+        }
+    </script>
+</html>
