@@ -17,7 +17,7 @@ Keep Alive란 연결된 socket에 IN/OUT의 access가 마지막으로 종료된 
 - keep alive : true
 처음 server에 2개의 port를 열고 image를 얻고 ( 3초 )
 다시 첫번째 요청에서 열어 둔 2개의 port에 2개의 image를 얻음 ( 2초 )
-keep alive time out이 되었을 때 client의 socet이 닫히거나 browser가 더 이상 얻어 올 것이 없으면 자동으로 닫어 버림.
+keep alive time out이 되었을 때 client의 socket이 닫히거나 browser가 더 이상 얻어 올 것이 없으면 자동으로 닫어 버림.
 총 5초가 걸림.
 
 ## Keep Alive를 그럼 어떻게 쓸수 있는가?

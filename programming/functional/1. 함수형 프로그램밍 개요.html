@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script>
+            // 순수함수? 동일한 인자를 주면 동일한 결과를 주기 때문이다.
+            // 부수효과가 없다. 함수가 리턴값으로 결과를 주는 외에 외부상태에 영향을 미치지 않는다.
+            function add(a, b) {
+                return a + b;
+            }
+
+            console.log( add(10, 5) );
+            console.log( add(10, 5) );
+            console.log( add(10, 5) );
+
+            // c가 상수이면, 순수함수이다. 아니면 순수함수가 아니다.
+            var c = 10;
+            function add2(a, b) {
+                return a + b + c;
+            }
+
+            console.log( add2(10, 5) );
+            console.log( add2(10, 5) );
+            console.log( add2(10, 5) );
+            c = 20;
+            console.log( add2(10, 5) );
+            console.log( add2(10, 5) );
+            console.log( add2(10, 5) );
+
+            //부수효과가 있는 함수
+            var c = 20;
+            function add3(a, b) {
+                c = b;
+                return a + b;
+            }
+
+            console.log('c1:' + c);
+            console.log( add3(20, 30) );
+            console.log('c2:' + c);
+
+            //순수함수가 아닌 함수
+            var obj1 = { val : 10 };
+            function add4(obj, b) {
+                obj.val += b;
+            }
+
+            console.log( obj1.val );
+            add4( obj1, 20);
+            console.log( obj1.val );
+            // 함수형 프로그래밍에서는 객체의 값을 변형해 나가는데 그 방법을 다르게 변형해 나간다.
+            // 원래 있던 값을 그대로 두고 새로운 값을 만들면서 복사해서 원하는 값이 변형된 새로운 값을 리턴한다.
+
+            // 4번째 add와 동일하지만 외부의 값에 영향을 미치지 않는 함수를 만들어보자.
+            var obj1 = { val : 10 };
+            function add5(obj, b) {
+                return { val : obj.val + b};    //새로운 객체를 리턴한다.
+            }
+
+            console.log( obj1.val );
+            var obj2 = add5(obj1, 20);
+            console.log( obj1.val );
+            console.log( obj2.val );
+
+            // 순수함수의 중요한 특징?
+            // 순수함수는 평가시점이 중요하지 않다.
+
+            // 함수형 프로그래밍이 가능한 중요한 이유?중시하는 개념?
+            // add2는 외부값을 참조하기 때문에 항상 동일한 결과를 리턴하지 않는 함수다.
+            // add2는 어느 타이밍에 적용하느냐에 따라서 평가시점에 따라서 값이 달라진다.(평가시점에 따라 로직이 정해진다.)
+
+            // 순수함수는 순수함수가 아닌 함수보다 조합성을 강조할 수 있다.
+            // add 함수는 언제 평가되도 상관없긴 때문에 평가시점을 개발자가 다를수 있게 된다.
+            // 다른 함수의 인자를 넘기다던지, 전혀 다른 쓰레드나 공간에서 함수를 평가시켜도 동일한 결과를 리턴할수 있다.
+            // 그래서 다루기 쉽고 안전하다.
+            // 함수형 프로그래밍은 순수함수를 통해서 조합성을 강조하는 프로그래밍이다.
+            // 또 순수함수를 통해서 조합성을 강조하는 이유가 평가시점을 다루는 걸 통해서 다양한 로직들을 만들고 이점을 만들기 위해서이다.
+            /*
+                일급함수 : 함수를 언어에서 값으로 다룰수 있다 런타임에서 언제나 정의할 수 있고 언제나 들고 다닐수 있고 인자로 보낼수 있고
+                제가 원하는 시점에 들고 다니다가 원하는 시점에 평가할 수 있는게 일급함수이다.
+            */
+
+        </script>
+    </body>
+</html>
