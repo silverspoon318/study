@@ -1,0 +1,139 @@
+#! /bin/sh
+#
+# varnishlog Control the Varnish logging daemon
+#
+# chkconfig: - 90 10
+# description: Varnish Cache logging daemon
+# processname: varnishlog
+# config:
+# pidfile: /var/run/varnishlog.pid
+
+### BEGIN INIT INFO
+# Provides: varnishlog
+# Required-Start: $network $local_fs $remote_fs
+# Required-Stop: $network $local_fs $remote_fs
+# Default-Start:
+# Default-Stop:
+# Short-Description: start and stop varnishlog
+# Description: Varnish Cache logging daemon
+### END INIT INFO
+
+# Source function library.
+. /etc/init.d/functions
+
+retval=0
+pidfile="/var/run/$1_log.pid"
+lockfile="/var/lock/subsys/varnishlog"
+logfile="/home/svcop/varnish/log/notice.log"
+logfile2="/home/svcop/varnish/log/endingpopup.log"
+logfile3="/home/svcop/varnish/log/udw-v2.log"
+logfile4="/home/svcop/varnish/log/notice-ext.log"
+vsmfile="/var/lib/varnish/notice"
+vsmfile2="/var/lib/varnish/endingpopup"
+vsmfile3="/var/lib/varnish/udw-v2"
+vsmfile4="/var/lib/varnish/notice-ext"
+exec="/usr/bin/varnishlog"
+prog="varnishlog"
+
+DAEMON_OPTS="-a -w $logfile -D -P $pidfile -n $vsmfile"
+DAEMON_OPTS2="-a -w $logfile2 -D -P $pidfile -n $vsmfile2"
+DAEMON_OPTS3="-a -w $logfile3 -D -P $pidfile -n $vsmfile3"
+DAEMON_OPTS4="-a -w $logfile4 -D -P $pidfile -n $vsmfile4"
+
+# Include varnishlog defaults
+[ -e /etc/sysconfig/varnishlog ] && . /etc/sysconfig/varnishlog
+
+start() {
+
+        if [ ! -x $exec ]
+        then
+                echo $exec not found
+                exit 5
+        fi
+
+        echo -n "Starting varnish logging daemon: "
+        if [ "$1" = "notice" ];
+        then
+                daemon --pidfile $pidfile $exec "$DAEMON_OPTS"
+        echo $1
+        elif [ "$1" = "endingpopup" ];
+        then
+                daemon --pidfile $pidfile $exec "$DAEMON_OPTS2"
+        echo $1
+        elif [ "$1" = "udw-v2" ];
+        then
+                daemon --pidfile $pidfile $exec "$DAEMON_OPTS3"
+                echo $1
+                 elif [ "$1" = "notice-ext" ];
+                 then
+                         daemon --pidfile $pidfile $exec "$DAEMON_OPTS4"
+                 echo $1
+                 fi
+         }
+
+         stop() {
+                 echo -n "Stopping varnish logging daemon: "
+                 killproc -p $pidfile $prog
+                 retval=$?
+                 echo $1
+                 [ $retval -eq 0 ] && rm -f $lockfile
+                 return $retval
+         }
+
+         restart() {
+                 stop
+                 start
+         }
+
+         reload() {
+                 restart
+         }
+
+         force_reload() {
+                 restart
+         }
+
+         rh_status() {
+                 status -p $pidfile $prog
+                 }
+
+                 rh_status_q() {
+                         rh_status >/dev/null 2>&1
+                 }
+
+                 # See how we were called.
+                 case "$2" in
+                         start)
+                                 rh_status_q $1 && exit 0
+                                 $2 $1
+                                 ;;
+                         stop)
+                                 rh_status_q $1 || exit 0
+                                 $2 $1
+                                 ;;
+                         restart)
+                                 $2 $1
+                                 ;;
+                         reload)
+                                 rh_status_q || exit 7
+                                 $2 $1
+                                 ;;
+                         force-reload)
+                                 force_reload
+                                 ;;
+                         status)
+                                 rh_status
+                                 ;;
+                         condrestart|try-restart)
+                                 rh_status_q || exit 0
+                                 restart
+                                 ;;
+                         *)
+                         echo "Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload}"
+
+                         exit 2
+                 esac
+
+                 exit $?
+
+                                                             

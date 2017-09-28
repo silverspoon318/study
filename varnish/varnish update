@@ -1,0 +1,82 @@
+1. 4.1 설치
+curl -s https://packagecloud.io/install/repositories/varnishcache/varnish41/script.rpm.sh | sudo bash
+
+fin. The repository is setup! You can now install packages.
+
+2. 패키지 다운로드
+rpm --nosignature -i https://repo.varnish-cache.org/redhat/varnish-4.1.el6.rpm
+
+3. yum으로 설치
+sudo yum install varnish
+sudo /usr/sbin/varnishd -P /var/run/notice-ext.pid -a :10025 -f /home/svcop/varnish/conf/notice.vcl -T 0.0.0.0:6085 -S /home/svcop/varnish/conf/secret -t 120 -p thread_pool_min=50 -p thread_pool_max=1000 -p thread_pool_timeout=120 -s file,/var/lib/varnish/notice-ext_varnish_storage.bin,1G
+
+
+sudo /usr/sbin/varnishd
+-P /var/run/notice-ext.pid
+-a :10025
+-f /home/svcop/varnish/conf/notice.vcl
+-T 0.0.0.0:6085
+-S /home/svcop/varnish/conf/secret
+-t 120
+-p thread_pool_min=50 -p thread_pool_max=1000 -p thread_pool_timeout=120 kkkkkkkkjkkl
+-s file,/var/lib/varnish/notice-ext_varnish_storage.bin,1G -n /var/lib/varnish/notice-ext
+
+-u 옵션 deprecate
+https://support.jpgottech.com/knowledgebase.php?article=90
+
+로그 권한주기
+sudo usermod -a -G varnish varnishlog
+
+sudo gpasswd -a svcop varnish
+
+ /etc/sysconfig/varnish
+
+ls -l -tr
+
+sudo /usr/sbin/varnishd -j unix,user=varnish,ccgroup=varnish -a :10025 -f /home/svcop/varnish/conf/notice-ext.vcl -T 0.0.0.0:6085 -S /home/svcop/varnish/conf/secret -s file,/var/lib/varnish/notice-ext_varnish_storage.bin,1G -t 120 -p thread_pool_min=50 -p thread_pool_max=1000 -p thread_pool_timeout=120 -n /var/lib/varnish/notice-ext
+
+varnish 모듈 설치
+https://github.com/nigoroll/libvmod-dynamic
+
+Error:
+Message from VCC-compiler:
+Could not load VMOD goto
+        File name: libvmod_goto.so
+        dlerror: /usr/lib64/varnish/vmods/libvmod_goto.so: cannot open shared object file: No such file or directory
+('/home/svcop/varnish/conf/notice-ext.vcl' Line 16 Pos 8)
+import goto;
+
+-------####--
+
+yum install varnish-libs-devel
+
+
++ aclocal -I m4 -I /usr/share/aclocal
+configure.ac:11: warning: macro `AM_PROG_AR' not found in library
+configure.ac:1: error: Autoconf version 2.68 or higher is required
+configure.ac:1: the top level
+autom4te: /usr/bin/m4 failed with exit status: 63
+aclocal: autom4te failed with exit status: 63
+
+이상하게 yum insatall 에서 보명 최신버전을 받고 있지만 2.63이라서 작동 안됨.
+$ wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
+$ tar xvfvz autoconf-2.69.tar.gz
+$ cd autoconf-2.69
+$ ./configure
+$ make
+$ sudo make install
+
+ automake
+
+ wget ftp://ftp.gnu.org/gnu/automake/automake-1.13.tar.gz
+ $ tar xvfvz automake-1.13.tar.gz
+ $ cd automake-1.13
+ $ ./configure
+ $ make
+ $ sudo make install
+
+cgi 위치
+ /var/www/html/rsvp/cgi-bin
+
+
+ GSLB 에서 varnish 로 요청할 때 헤더로 요청하는지...

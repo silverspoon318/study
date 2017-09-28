@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <script>
+        setTimeout(function() { // (A)
+            console.log('A');
+        }, 100);
+        Promise.resolve().then(function() { // (B)
+            console.log('B');
+        }).then(function() { // (C)
+            console.log('C');
+        });
+    </script>
+
+</body>
+
+</html>

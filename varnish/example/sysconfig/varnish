@@ -1,0 +1,181 @@
+# Configuration file for varnish
+#
+# /etc/init.d/varnish expects the variable $DAEMON_OPTS to be set from this
+# shell script fragment.
+#
+
+# Maximum number of open files (for ulimit -n)
+NFILES=131072
+
+# Locked shared memory (for ulimit -l)
+# Default log size is 82MB + header
+MEMLOCK=82000
+
+# Maximum number of threads (for ulimit -u)
+NPROCS="unlimited"
+
+# Maximum size of corefile (for ulimit -c). Default in Fedora is 0
+# DAEMON_COREFILE_LIMIT="unlimited"
+
+# Set this to 1 to make init script reload try to switch vcl without restart.
+# To make this work, you need to set the following variables
+# explicit: VARNISH_VCL_CONF, VARNISH_ADMIN_LISTEN_ADDRESS,
+# VARNISH_ADMIN_LISTEN_PORT, VARNISH_SECRET_FILE, or in short,
+# use Alternative 3, Advanced configuration, below
+
+# This file contains 4 alternatives, please use only one.
+
+## Alternative 1, Minimal configuration, no VCL
+#
+# Listen on port 6081, administration on localhost:6082, and forward to
+# content server on localhost:8080.  Use a fixed-size cache file.
+#
+#
+#### public setting ####
+VARNISH_TTL=120
+VARNISH_MIN_THREADS=50
+VARNISH_MAX_THREADS=1000
+VARNISH_THREAD_TIMEOUT=120
+VARNISH_ADMIN_LISTEN_ADDRESS=0.0.0.0
+
+#### notice setting ####
+RELOAD_VCL=1
+VARNISH_VCL_CONF=/home/svcop/varnish/conf/notice.vcl
+VARNISH_ADMIN_LISTEN_PORT=6082
+VARNISH_SECRET_FILE=/home/svcop/varnish/conf/secret
+STORAGE=notice_varnish_storage.bin
+VARNISH_VSM=/var/lib/varnish/notice
+
+DAEMON_OPTS="-a :10015 \
+             -f ${VARNISH_VCL_CONF} \
+             -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT} \
+             -S ${VARNISH_SECRET_FILE} \
+             -u varnish -g varnish \
+             -t ${VARNISH_TTL} \
+             -p thread_pool_min=${VARNISH_MIN_THREADS} \
+             -p thread_pool_max=${VARNISH_MAX_THREADS} \
+             -p thread_pool_timeout=${VARNISH_THREAD_TIMEOUT} \
+             -s file,/var/lib/varnish/${STORAGE},1G \
+             -n ${VARNISH_VSM}"
+
+
+             #### Endingpopup setting ####
+             RELOAD_VCL=2
+             VARNISH_ADMIN_LISTEN_PORT2=6083
+             VARNISH_SECRET_FILE2=/home/svcop/varnish/conf/secret
+             STORAGE2=endingpopup_varnish_storage.bin
+             VARNISH_VCL_CONF2=/home/svcop/varnish/conf/endingpopup.vcl
+             VARNISH_VSM2=/var/lib/varnish/endingpopup
+
+             DAEMON_OPTS2="-a :10005 \
+                          -f ${VARNISH_VCL_CONF2} \
+                          -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT2} \
+                          -S ${VARNISH_SECRET_FILE2} \
+                          -s file,/var/lib/varnish/${STORAGE2},1G \
+                          -u varnish -g varnish \
+                          -t ${VARNISH_TTL} \
+                          -p thread_pool_min=${VARNISH_MIN_THREADS} \
+                          -p thread_pool_max=${VARNISH_MAX_THREADS} \
+                          -p thread_pool_timeout=${VARNISH_THREAD_TIMEOUT} \
+                          -n ${VARNISH_VSM2}"
+
+                          #### UDW-v2 setting ####
+                          RELOAD_VCL=3
+                          VARNISH_ADMIN_LISTEN_PORT3=6084
+                          VARNISH_SECRET_FILE3=/home/svcop/varnish/conf/secret
+                          STORAGE3=udw-v2_varnish_storage.bin
+                          VARNISH_VCL_CONF3=/home/svcop/varnish/conf/udw-v2.vcl
+                          VARNISH_VSM3=/var/lib/varnish/udw-v2
+
+                          DAEMON_OPTS3="-a :10030 \
+                                       -f ${VARNISH_VCL_CONF3} \
+                                       -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT3} \
+                                       -S ${VARNISH_SECRET_FILE3} \
+                                       -s file,/var/lib/varnish/${STORAGE3},1G \
+                                       -u varnish -g varnish \
+                                       -t ${VARNISH_TTL} \
+                                       -p thread_pool_min=${VARNISH_MIN_THREADS} \
+                                       -p thread_pool_max=${VARNISH_MAX_THREADS} \
+                                       -p thread_pool_timeout=${VARNISH_THREAD_TIMEOUT} \
+                                       -n ${VARNISH_VSM3}"
+
+
+                          #### notice-ext setting ####
+                          RELOAD_VCL=4
+                          VARNISH_ADMIN_LISTEN_PORT4=6085
+                          VARNISH_SECRET_FILE4=/home/svcop/varnish/conf/secret
+                          STORAGE4=notice-ext_varnish_storage.bin
+                          VARNISH_VCL_CONF4=/home/svcop/varnish/conf/notice-ext.vcl
+                          VARNISH_VSM4=/var/lib/varnish/notice-ext
+
+                          DAEMON_OPTS4="-a :10025 \
+                                       -f ${VARNISH_VCL_CONF4} \
+                                       -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT4} \
+                                       -S ${VARNISH_SECRET_FILE4} \
+                                       -s file,/var/lib/varnish/${STORAGE4},1G \
+                                       -u varnish -g varnish \
+                                       -t ${VARNISH_TTL} \
+                                       -p thread_pool_min=${VARNISH_MIN_THREADS} \
+                                       -p thread_pool_max=${VARNISH_MAX_THREADS} \
+                                       -p thread_pool_timeout=${VARNISH_THREAD_TIMEOUT} \
+                                       -n ${VARNISH_VSM4}"
+
+                          #DAEMON_OPTS="-a :6081 \
+                          #             -T localhost:6082 \
+                          #             -b localhost:8080 \
+                          #             -u varnish -g varnish \
+                          #             -s file,/var/lib/varnish/varnish_storage.bin,1G"
+
+
+                          ## Alternative 2, Configuration with VCL
+                          #
+                          # Listen on port 6081, administration on localhost:6082, and forward to
+                          # one content server selected by the vcl file, based on the request.  Use a
+                          # fixed-size cache file.
+                          #
+                          #DAEMON_OPTS="-a :6081 \
+ #             -T localhost:6082 \
+ #             -f /etc/varnish/default.vcl \
+ #             -u varnish -g varnish \
+ #             -S /etc/varnish/secret \
+ #             -s file,/var/lib/varnish/varnish_storage.bin,1G"
+
+
+ ## Alternative 3, Advanced configuration
+ #
+ # See varnishd(1) for more information.
+ #
+ # # Main configuration file. You probably want to change it :)
+ #VARNISH_VCL_CONF=/etc/varnish/notice.vcl
+ #
+ # # Default address and port to bind to
+ # # Blank address means all IPv4 and IPv6 interfaces, otherwise specify
+ # # a host name, an IPv4 dotted quad, or an IPv6 address in brackets.
+ # VARNISH_LISTEN_ADDRESS=
+ #VARNISH_LISTEN_PORT=10015
+ #
+ # # Telnet admin interface listen address and port
+ #VARNISH_ADMIN_LISTEN_ADDRESS=10.10.10.56
+ #VARNISH_ADMIN_LISTEN_PORT=6082
+ #
+ # # Shared secret file for admin interface
+ #VARNISH_SECRET_FILE=/etc/varnish/secret
+ #
+ # # The minimum number of worker threads to start
+ #VARNISH_MIN_THREADS=50
+ #
+ # # The Maximum number of worker threads to start
+ #VARNISH_MAX_THREADS=1000
+ #
+ # # Idle timeout for worker threads
+ #VARNISH_THREAD_TIMEOUT=120
+ #
+ # # Cache file size: in bytes, optionally using k / M / G / T suffix,
+ # # or in percentage of available disk space using the % suffix.
+ #VARNISH_STORAGE_SIZE=256M
+ #
+ # # Backend storage specification
+ #VARNISH_STORAGE="malloc,${VARNISH_STORAGE_SIZE}"
+ #
+ # # Default TTL used when the backend does not specify one
+ #VARNISH_TTL=120j

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <script src="file:///E:/work/swkim_work/study/javascript/example/03/jquery-1.11.1.min.js"></script>
+    <button type="button" name="button" class="btn">test</button>
+    <script>
+    $('.btn').click(function() { // (A)
+        $.getJSON('http://lc-fcp-api.four33.co.kr:30002/api/mission/', function (res) { // (B)
+            try {
+                throw "Too big";
+            } catch (e) {
+                console.log('Error : ' + e.message);
+            }
+        });
+    });
+    </script>
+
+</body>
+
+</html>

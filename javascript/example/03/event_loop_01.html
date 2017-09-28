@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <script>
+        function delay() {
+            for (var i = 0; i < 1000000000000; i++) {
+                if (i === 900000000000) {
+                        console.log("90000");
+                }
+
+            };
+            console.log("213");
+        }
+
+        function foo() {
+            delay();
+            bar();
+            console.log('foo!'); // (3)
+        }
+
+        function bar() {
+            delay();
+            console.log('bar!'); // (2)
+        }
+
+        function baz() {
+            console.log('baz!'); // (4)
+        }
+
+        setTimeout(baz, 10); // (1)
+        foo();
+    </script>
+    <p>
+        function delay() {<br>
+            for (var i = 0; i < 10; i++);<br>
+        }<br>
+
+        function foo() {<br>
+            delay();<br>
+            bar();<br>
+            console.log('foo!'); // (3)<br>
+        }<br>
+
+        function bar() {<br>
+            delay();<br>
+            console.log('bar!'); // (2)<br>
+        }<br>
+
+        function baz() {<br>
+            console.log('baz!'); // (4)<br>
+        }<br>
+
+        setTimeout(baz, 10); // (1)<br>
+        foo();
+    </p>
+</body>
+
+</html>

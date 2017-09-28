@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <script>
+        function add(a, b) {
+            return a + b;
+        }
+
+        // 일급함수 - 함수를 값으로 다룰 수 있는 함수
+        var f1 = function (a) {return a * a;};
+        console.log(f1);
+
+        // 함수는 미리 정의된 함수든, 새로 정의된 익명함수든 변수에 함수를 담을 수 있다.
+        var f2 = add;
+        console.log(f2);
+
+        // 어떤 함수를 인자로 넘기냐에 따라서 f3의 return 값이 결정된다.
+        // 함수를 인자로 받아서 함수내부에서 함수를 평가한 다음에 그 결과를 리턴한다.
+        function f3(f) {
+            return f();
+        }
+
+        console.log(f3(function () {
+            return 10;
+        }));
+
+        console.log(f3(function () {
+            return 20;
+        }));
+
+        // add_maker
+        function add_maker(a) {
+            return function (b) {
+
+            }
+        }
+
+        </script>
+    </body>
+</html>
